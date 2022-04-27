@@ -2,6 +2,7 @@ import React from 'react';
 import successIcon from '../images/success-icon.svg';
 import failIcon from '../images/fail-icon.svg';
 
+
 function InfoTooltip(props) {
 
   return (

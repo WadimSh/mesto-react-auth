@@ -1,23 +1,22 @@
-import { React, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
+function Register(props) {
 
-const Register = ({onRegister}) => {
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  function handleEmailChange(evt) {
-    setEmail(evt.target.value);
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
   }
 
-  function handlePasswordChange(evt) {
-    setPassword(evt.target.value);
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
   }
 
-  function handleSubmit(evt) {
-    evt.preventDefault();
-    onRegister(email, password);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    props.onRegister(email, password);
   }
 
   return(

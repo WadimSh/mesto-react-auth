@@ -4,11 +4,10 @@ import { Route, Switch, Redirect, useHistory, } from "react-router-dom";
 import Header from "./Header.js";
 import Main from "./Main.js";
 import Footer from "./Footer.js";
-
+//--
 import Login from "./Login.js";
 import Register from "./Register.js";
 import ProtectedRoute from './ProtectedRoute';
-import { register, authorization, validityToken } from '../utils/auth';
 import InfoTooltip from './InfoTooltip';
 //--компоненты попапов
 import EditProfilePopup from "./EditProfilePopup.js";
@@ -18,7 +17,9 @@ import DeletePopupCard from './DeletePopupCard.js';
 import ImagePopup from "./ImagePopup.js";
 //--прочие компоненты (API и контекст)
 import api from "../utils/api.js";
+import * as auth from '../utils/auth';
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+
 
 function App() {
   //--
@@ -38,14 +39,10 @@ function App() {
   const [deletCard, setDeleteCard] = React.useState({});
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
-
-  //хук авторизации пользователя(вошел в систему или нет)
+  //--
   const [loggedIn, setLoggedIn] = React.useState(false);
-  //хук состояния открытия поп-апа с оповещением при авторизации
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
-  //хук сообщения об успешной/неудачной авторизации
   const [message, setMessage] = React.useState(false);
-  //хук получения почты пользователя, для отображения в хедере
   const [userEmailOnHeader, setUserEmailOnHeader] = React.useState('');
   const history = useHistory();
 
@@ -165,8 +162,9 @@ function App() {
     setIsInfoTooltipOpen(false);
   };
 
-  function onRegister(email, password) {
-    register(password, email)
+  const onRegister = (email, password) => {
+    auth
+      .register(password, email)
       .then((res) => {
         setIsInfoTooltipOpen(true);
         if(res) {
@@ -180,8 +178,9 @@ function App() {
       });
   }
 
-  function onLogin(email, password) {
-    authorization(password, email)
+  const onLogin = (email, password) => {
+    auth
+      .authorization(password, email)
       .then((res) => {
         if(res) {
           setLoggedIn(true);
@@ -196,10 +195,11 @@ function App() {
       });
   }
 
-  function checkToken() {
+  const checkToken = () => {
     const token = localStorage.getItem('jwt');
     if(token) {
-      validityToken(token)
+    auth
+      .validityToken(token)
       .then((res) => {
         if(res) {
           setUserEmailOnHeader(res.data.email)
@@ -213,7 +213,7 @@ function App() {
     }
   }
 
-  function logoutProfile() {
+  const logoutProfile = () => {
     localStorage.removeItem('jwt');
     history.push('/sign-in');
     setLoggedIn(false);
@@ -222,12 +222,13 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-      <Header 
+        <Header 
           userEmailOnHeader={userEmailOnHeader}
           logoutProfile={logoutProfile}
         />
 
         <Switch>
+
           <ProtectedRoute
             onCardClick={handleCardClick}
             onEditProfile={handleEditProfileClick}
@@ -240,29 +241,32 @@ function App() {
             exact path="/"
             loggedIn={loggedIn}
           />
+
           <Route path="/sign-in">
             <Login 
               onLogin={onLogin}
-            />
+            />            
           </Route>
+
           <Route path="/sign-up">
             <Register 
               onRegister={onRegister}
             />
           </Route>
+
           <Route>
             {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-up"/>}
           </Route>
+
         </Switch>
+    
+        <Footer />
+
         <InfoTooltip
           isOpen={isInfoTooltipOpen}
           onClose={closeAllPopups}
           status={message}
         />
-
-        
-     
-        <Footer />
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
