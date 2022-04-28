@@ -1,37 +1,37 @@
 import React from "react";
 import { Route, Switch, Redirect, useHistory, } from "react-router-dom";
-//--основные компоненты
+
 import Header from "./Header.js";
 import Main from "./Main.js";
 import Footer from "./Footer.js";
-//--
+
 import Login from "./Login.js";
 import Register from "./Register.js";
 import ProtectedRoute from './ProtectedRoute';
 import InfoTooltip from './InfoTooltip';
-//--компоненты попапов
+
 import EditProfilePopup from "./EditProfilePopup.js";
 import EditAvatarPopup from "./EditAvatarPopup.js";
 import AddPlacePopup from "./AddPlacePopup.js";
 import DeletePopupCard from './DeletePopupCard.js';
 import ImagePopup from "./ImagePopup.js";
-//--прочие компоненты (API и контекст)
+
 import api from "../utils/api.js";
 import * as auth from '../utils/auth';
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 
 function App() {
-  //--
+  
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
   const [isPlaceDeletePopupOpen, setIsPlaceDeletePopupOpen] = React.useState(false);
-  //--
+  
   const [submitTextUserPopup, setSubmitTextUserPopup] = React.useState('Сохранить');
   const [submitTextAddPlacePopup, setSubmitTextAddPlacePopup] = React.useState('Сохранить');
   const [submitTextDeletePlacePopup, setSubmitTextDeletePlacePopup] = React.useState('Да');
-  //--
+  
   const [selectedCard, setSelectedCard] = React.useState({
     link: "",
     name: "",
@@ -39,7 +39,7 @@ function App() {
   const [deletCard, setDeleteCard] = React.useState({});
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
-  //--
+  
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
   const [message, setMessage] = React.useState(false);
