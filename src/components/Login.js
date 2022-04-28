@@ -19,13 +19,11 @@ function Login(props) {
   }
 
   return (
-    <form className="login-form" onSubmit={handleSubmit}>
-      <h3 className="login-form__title">Вход</h3>
-      <input className="login-form__input login-form__input_login-email" placeholder="Email" 
-        type="email" onChange={handleEmailChange} required />
-      <input className="login-form__input login-form__input_login-pass" placeholder="Пароль" 
-        type="password" onChange={handlePasswordChange} required />
-      <button className="login-form__button" type="submit">Войти</button>
+    <form className="form" onSubmit={handleSubmit}>
+      <h3 className="form__title">Вход</h3>
+      <input className="form__input" placeholder="Email" type="email" onChange={handleEmailChange} required />
+      <input className="form__input" placeholder="Пароль" type="password" onChange={handlePasswordChange} required />
+      <button className="form__button" type="submit">Войти</button>
     </form>
   )
 }

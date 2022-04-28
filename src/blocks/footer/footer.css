@@ -4,11 +4,12 @@
   justify-content: space-between;
   margin-top: 67px;
   padding-bottom: 60px;
-  max-width: 880px;
+  width: 880px;
 }
 
 @media screen and (max-width: 900px) {
   .footer {
+    width: 320px;
     margin-top: 48px;
     margin-left: 19px;
   }
