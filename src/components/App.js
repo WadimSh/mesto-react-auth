@@ -59,7 +59,7 @@ function App() {
 
   React.useEffect(() => {
     checkToken();
-  })
+  }, [])
 
   const handleCardLike = (card) => {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
@@ -98,6 +98,9 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setSubmitTextAddPlacePopup('Создать');
       });
   };
 
@@ -111,6 +114,9 @@ function App() {
       })
       .catch((err) => {
         console.error(err);
+      })
+      .finally(() => {
+        setSubmitTextUserPopup('Сохранить');
       });
   };
 
@@ -124,21 +130,21 @@ function App() {
       })
       .catch((err) => {
         console.error(err);
+      })
+      .finally(() => {
+        setSubmitTextUserPopup('Сохранить');
       });
   };
 
   const handleEditAvatarClick = () => {
-    setSubmitTextUserPopup('Сохранить');
     setEditAvatarPopupOpen(true);
   };
 
   const handleEditProfileClick = () => {
-    setSubmitTextUserPopup('Сохранить');
     setEditProfilePopupOpen(true);
   };
 
   const handleAddPlaceClick = () => {
-    setSubmitTextAddPlacePopup('Создать');
     setAddPlacePopupOpen(true);
   };
 
@@ -165,15 +171,16 @@ function App() {
   const onRegister = (email, password) => {
     auth
       .register(password, email)
-      .then((res) => {
-        setIsInfoTooltipOpen(true);
+      .then((res) => {        
         if(res) {
           setMessage(true);
           history.push('/sign-in');
         }
       })
       .catch(() => {
-        setMessage(false);
+        setMessage(false);        
+      })
+      .finally(() => {
         setIsInfoTooltipOpen(true);
       });
   }

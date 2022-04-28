@@ -3,15 +3,7 @@ import PopupWithForm from "./PopupWithForm";
 
 function EditAvatarPopup(props) {
   const avatarRef = React.useRef();
-  const [avatar, setUserAvatar] = React.useState("");
-
-  React.useEffect(() => {
-    setUserAvatar("");
-  }, [props.isOpen]);
-
-  const handelAvatarChange = (e) => {
-    setUserAvatar(e.target.value);
-  };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,8 +26,7 @@ function EditAvatarPopup(props) {
         type="url"
         className="popup__input popup__input_type_avatar"
         name="avatar"
-        value={avatar}
-        onChange={handelAvatarChange}
+        
         placeholder="Ссылка на картинку"
         autoComplete="off"
         required

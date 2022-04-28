@@ -15,9 +15,7 @@ export const register = (password, email) => {
     },
     body: JSON.stringify({password, email})
   })
-  .then((res) => {
-    return getResponse(res)
-  })
+  .then(getResponse)
 };
 
 export const authorization = (password, email) => {
