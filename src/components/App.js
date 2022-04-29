@@ -1,3 +1,4 @@
+//спасибо за ревью, с трудом но, надеюсь, получилось привести код в порядок
 import React from "react";
 import { Route, Switch, Redirect, useHistory, } from "react-router-dom";
 
@@ -208,14 +209,14 @@ function App() {
   const checkToken = () => {
     const token = localStorage.getItem('jwt');
     if(token) {
-      
+      setLoggedIn(true);
     auth
       .validityToken(token)
       .then((res) => {
         if(res) {
           setUserEmailOnHeader(res.data.email)
         };
-        setLoggedIn(true);
+        
         history.push('/');
       })
       .catch((err) => {
@@ -226,8 +227,9 @@ function App() {
 
   const logoutProfile = () => {
     localStorage.removeItem('jwt');
-    history.push('/sign-in');
+    //history.push('/sign-in');
     setLoggedIn(false);
+    setCurrentUser({});
   }
 
   return (
