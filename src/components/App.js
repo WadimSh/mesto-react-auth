@@ -1,4 +1,3 @@
-//спасибо за ревью, с трудом но, надеюсь, получилось привести код в порядок
 import React from "react";
 import { Route, Switch, Redirect, useHistory, } from "react-router-dom";
 
@@ -60,10 +59,6 @@ function App() {
         console.log(err);
       });}
   }, [loggedIn]);
-
-  //React.useEffect(() => {
-  //  checkToken();
-  //}, [])
 
   const handleCardLike = (card) => {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
@@ -227,7 +222,6 @@ function App() {
 
   const logoutProfile = () => {
     localStorage.removeItem('jwt');
-    //history.push('/sign-in');
     setLoggedIn(false);
     setCurrentUser({});
   }
