@@ -26,20 +26,16 @@ export const authorization = (password, email) => {
     },
     body: JSON.stringify({password, email})
   })
-  .then((res) => {
-    return getResponse(res)
-  })
-}
+  .then(getResponse)
+};
 
 export const validityToken = (token) => {
-  return fetch(`${BASE_URL}/user/me`, {
+  return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
       "Content-Type": "application/json",
       "Authorization" : `Bearer ${token}`
     } 
   })
-  .then((res) => {
-    return getResponse(res)
-  })
+  .then(getResponse)
 }
