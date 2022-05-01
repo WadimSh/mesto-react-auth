@@ -1,13 +1,16 @@
 import React from "react";
 import Card from "./Card.js";
+import Spinner from "./Spinner.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import mainAvatar from "../images/image.jpg";
 
 function Main(props) {
   const currentUser = React.useContext(CurrentUserContext);
-  
+
   return (
+    
     <main className="content">
+    {props.onSpinner ? <Spinner /> : <>
       <section className="profile">
         <button
           onClick={props.onEditAvatar}
@@ -49,7 +52,7 @@ function Main(props) {
             );
           })}
         </ul>
-      </section>
+      </section> </>}
     </main>
   );
 }

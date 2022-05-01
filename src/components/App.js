@@ -46,8 +46,11 @@ function App() {
   const [userEmailOnHeader, setUserEmailOnHeader] = React.useState('');
   const history = useHistory();
 
+  const [isPageLoaded, setIsPageLoaded] = React.useState(false);
+
   React.useEffect(() => {
     checkToken();
+    setIsPageLoaded(true);
     if (loggedIn) {
       history.push('/');
     Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -57,8 +60,13 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsPageLoaded(false);
       });}
   }, [loggedIn]);
+
+  
 
   const handleCardLike = (card) => {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
@@ -237,6 +245,7 @@ function App() {
         <Switch>
 
           <ProtectedRoute
+            onSpinner={isPageLoaded}
             onCardClick={handleCardClick}
             onEditProfile={handleEditProfileClick}
             onAddPlace={handleAddPlaceClick}
