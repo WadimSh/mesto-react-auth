@@ -92,7 +92,10 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-      });
+      })
+      .finally(() => {
+        setSubmitTextDeletePlacePopup('Да');
+      });;
   };
 
   const handleAddPlaceSubmit = (data) => {
@@ -160,7 +163,6 @@ function App() {
   };
 
   const handlePlaceDeletePopupOpen = (card) => {
-    setSubmitTextDeletePlacePopup('Да');
     setIsPlaceDeletePopupOpen(true);
     setDeleteCard(card);
   }
