@@ -2,27 +2,62 @@ import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup(props) {
-  const [name, setPlaceName] = React.useState("");
-  const [link, setPlaceLink] = React.useState("");
+  const nameRef = React.useRef();
+  const linkRef = React.useRef();
 
+  const [errorMessageName, setErrorMessageName] = React.useState('');
+  const [isErroreName, setIsErroreName] = React.useState(true);
+  const [errorMessageLink, setErrorMessageLink] = React.useState('');
+  const [isErroreLink, setIsErroreLink] = React.useState(true);
+  const [isDisabled, setIsDisabled] = React.useState(true);
+  
   React.useEffect(() => {
-    setPlaceName("");
-    setPlaceLink("");
+    nameRef.current.value = '';
+    linkRef.current.value = '';
+    setIsDisabled(true);
+    setIsErroreName(false);
+    setErrorMessageName('');
+    setIsErroreLink(false);
+    setErrorMessageLink('');
   }, [props.isOpen]);
 
   const handelNameChange = (e) => {
-    setPlaceName(e.target.value);
+    if(nameRef.current.checkValidity()) {
+      handleClick();
+      setIsErroreName(false);
+      setErrorMessageName('');
+    } else {
+      handleClick();
+      setIsErroreName(true);
+      setErrorMessageName(e.target.validationMessage);
+    }
   };
 
   const handelLinkChange = (e) => {
-    setPlaceLink(e.target.value);
+    if(linkRef.current.checkValidity()) {
+      handleClick();
+      setIsErroreLink(false);
+      setErrorMessageLink('');
+    } else {
+      handleClick();
+      setIsErroreLink(true);
+      setErrorMessageLink(e.target.validationMessage);
+    }
   };
+
+  const handleClick = () => {
+    if(nameRef.current.checkValidity() && linkRef.current.checkValidity()) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     props.onAddPlace({
-      name,
-      link,
+      name: nameRef.current.value,
+      link: linkRef.current.value,
     });
   };
 
@@ -34,12 +69,13 @@ function AddPlacePopup(props) {
       isOpen={props.isOpen}
       onClose={props.onClose}
       buttonTextSubmit={props.buttonTextSubmit}
+      isDisabled={isDisabled}
     >
       <input
         type="text"
-        className="popup__input popup__input_type_title"
+        className={`popup__input ${isErroreName ? 'popup__input_type_error' : ''}`}
         name="title"
-        value={name || ""}
+        ref={nameRef}
         onChange={handelNameChange}
         placeholder="Название картинки"
         autoComplete="off"
@@ -47,18 +83,18 @@ function AddPlacePopup(props) {
         maxLength="30"
         required
       />
-      <span className="popup__input-error title-error" />
+      <span className={`popup__input-error ${isErroreName ? 'popup__input-error_activ' : ''}`}>{errorMessageName}</span>
       <input
         type="url"
-        className="popup__input popup__input_type_photo"
+        className={`popup__input ${isErroreLink ? 'popup__input_type_error' : ''}`}
         name="photo"
-        value={link || ""}
+        ref={linkRef}
         onChange={handelLinkChange}
         placeholder="Ссылка на картинку"
         autoComplete="off"
         required
       />
-      <span className="popup__input-error photo-error" />
+      <span className={`popup__input-error ${isErroreLink ? 'popup__input-error_activ' : ''}`}>{errorMessageLink}</span>
     </PopupWithForm>
   );
 }
